@@ -2,6 +2,9 @@ package com.szabodev.examples.tdd.fizzbuzz;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FizzBuzzTest {
@@ -23,9 +26,9 @@ class FizzBuzzTest {
     void shouldExecute() {
         FizzBuzz fizzBuzz = new FizzBuzz();
 
-        assertEquals(fizzBuzz.execute(new int[]{1}), "1");
+        assertEquals(fizzBuzz.execute(Collections.singletonList(1)), "1");
         assertEquals(
-                fizzBuzz.execute(new int[]{1, 2, 3, 5, 6, 10, 15, 30}),
+                fizzBuzz.execute(Arrays.asList(1, 2, 3, 5, 6, 10, 15, 30)),
                 "1, 2, Fizz, Buzz, Fizz, Buzz, FizzBuzz, FizzBuzz"
         );
     }

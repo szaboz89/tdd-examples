@@ -1,17 +1,17 @@
 package com.szabodev.examples.tdd.fizzbuzz;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class FizzBuzz {
 
-    public String execute(int[] numbers) {
-        return Arrays.stream(numbers)
-                .mapToObj(this::processNumber)
+    public String execute(List<Integer> numbers) {
+        return numbers.stream()
+                .map(this::processNumber)
                 .collect(Collectors.joining(", "));
     }
 
-    String processNumber(int number) {
+    String processNumber(Integer number) {
         if (isMultipleOf3(number) && isMultipleOf5(number)) {
             return "FizzBuzz";
         }
