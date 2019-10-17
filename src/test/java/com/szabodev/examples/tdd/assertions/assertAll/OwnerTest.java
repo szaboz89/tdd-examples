@@ -1,6 +1,7 @@
 package com.szabodev.examples.tdd.assertions.assertAll;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -17,6 +18,7 @@ class OwnerTest {
         owner.setPhone("phone");
     }
 
+    @DisplayName("Example for grouping assertions")
     @Test
     void assertAllTest() {
         assertAll("Owner properties",

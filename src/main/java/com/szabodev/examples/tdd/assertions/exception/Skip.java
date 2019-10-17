@@ -1,4 +1,4 @@
-package com.szabodev.examples.tdd.assertions.skip;
+package com.szabodev.examples.tdd.assertions.exception;
 
 class Skip {
 
