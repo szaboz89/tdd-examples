@@ -19,4 +19,14 @@ public class ExampleServiceImpl implements ExampleService {
     public Optional<Example> findById(Long id) {
         return exampleRepository.findById(id);
     }
+
+    @Override
+    public void delete(Example example) {
+        exampleRepository.delete(example);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        exampleRepository.deleteById(id);
+    }
 }
