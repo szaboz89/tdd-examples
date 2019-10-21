@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
 
 @ExtendWith(MockitoExtension.class)
 class ExampleControllerTest {
@@ -29,8 +30,30 @@ class ExampleControllerTest {
     @Mock
     BindingResult bindingResult;
 
+    @Mock
+    Model model;
+
     @Captor
     ArgumentCaptor<String> stringArgumentCaptor;
+
+    @Test
+    void testInOrder() {
+        // given
+        Example example = new Example(1L, "FindMe", "Test");
+        givenWithAnswer();
+        InOrder inOrder = inOrder(exampleService, model);
+
+        // when
+        String viewName = exampleController.processFindForm(example, bindingResult, model);
+
+        // then
+        assertThat("%FindMe%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
+        assertThat("example/findExamples").isEqualToIgnoringCase(viewName);
+
+        // in order
+        inOrder.verify(exampleService).findAllByNameLike(anyString());
+        inOrder.verify(model).addAttribute(anyString(), anyList());
+    }
 
     void givenWithAnswer() {
         given(exampleService.findAllByNameLike(stringArgumentCaptor.capture()))
