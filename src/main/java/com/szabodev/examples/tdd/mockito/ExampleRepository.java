@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface ExampleRepository {
 
-    void save(Example example);
+    Example save(Example example);
 
     Optional<Example> findById(Long id);
 
