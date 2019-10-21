@@ -1,12 +1,10 @@
 package com.szabodev.examples.tdd.mockito;
 
 import com.szabodev.examples.tdd.fakespring.BindingResult;
+import com.szabodev.examples.tdd.fakespring.Model;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -33,6 +31,69 @@ class ExampleControllerTest {
 
     @Captor
     ArgumentCaptor<String> stringArgumentCaptor;
+
+    void givenWithAnswer() {
+        given(exampleService.findAllByNameLike(stringArgumentCaptor.capture()))
+                .willAnswer(invocation -> {
+                    List<Example> examples = new ArrayList<>();
+                    String name = invocation.getArgument(0);
+                    switch (name) {
+                        case "%Test1%":
+                            examples.add(new Example(1L, "Test1", "Test"));
+                            return examples;
+                        case "%DontFindMe%":
+                            return examples;
+                        case "%FindMe%":
+                            examples.add(new Example(1L, "FindMe1", "Test"));
+                            examples.add(new Example(2L, "FindMe2", "Test"));
+                            return examples;
+                    }
+                    throw new RuntimeException("Invalid Argument");
+                });
+    }
+
+    @Test
+    void testFindFormWithAnswer1() {
+        // given
+        Example example = new Example(1L, "FindMe", "Test");
+        givenWithAnswer();
+
+        // when
+        String viewName = exampleController.processFindForm(example, bindingResult, Mockito.mock(Model.class));
+
+        // then
+        assertThat("%FindMe%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
+        assertThat("example/findExamples").isEqualToIgnoringCase(viewName);
+    }
+
+    @Test
+    void testFindFormWithAnswer2() {
+        // given
+        Example example = new Example(1L, "Test1", "Test");
+        givenWithAnswer();
+
+        // when
+        String viewName = exampleController.processFindForm(example, bindingResult, null);
+
+        // then
+        assertThat("%Test1%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
+        assertThat("redirect:/examples/1").isEqualToIgnoringCase(viewName);
+    }
+
+
+    @Test
+    void testFindFormWithAnswer3() {
+        // given
+        Example example = new Example(1L, "DontFindMe", "DontFindMe");
+        givenWithAnswer();
+
+        // when
+        String viewName = exampleController.processFindForm(example, bindingResult, null);
+
+        // then
+        assertThat("%DontFindMe%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
+        assertThat("example/findExamples").isEqualToIgnoringCase(viewName);
+    }
 
     @Test
     void processFindFormWildcardString() {
