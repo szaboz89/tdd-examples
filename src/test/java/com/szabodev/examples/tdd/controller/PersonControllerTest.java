@@ -1,5 +1,6 @@
 package com.szabodev.examples.tdd.controller;
 
+import com.szabodev.examples.tdd.fakespring.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

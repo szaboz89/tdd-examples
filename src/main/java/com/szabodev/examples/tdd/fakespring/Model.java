@@ -1,4 +1,4 @@
-package com.szabodev.examples.tdd.controller;
+package com.szabodev.examples.tdd.fakespring;
 
 public interface Model {
 

@@ -1,5 +1,6 @@
 package com.szabodev.examples.tdd.mockito;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ExampleServiceImpl implements ExampleService {
@@ -28,5 +29,10 @@ public class ExampleServiceImpl implements ExampleService {
     @Override
     public void deleteById(Long id) {
         exampleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Example> findAllByNameLike(String searchString) {
+        return exampleRepository.findAllByNameLike(searchString);
     }
 }

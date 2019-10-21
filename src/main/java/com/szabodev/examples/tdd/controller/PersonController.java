@@ -1,5 +1,7 @@
 package com.szabodev.examples.tdd.controller;
 
+import com.szabodev.examples.tdd.fakespring.Model;
+
 class PersonController {
 
     private final PersonService personService;
