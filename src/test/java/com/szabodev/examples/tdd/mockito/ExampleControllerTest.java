@@ -3,9 +3,14 @@ package com.szabodev.examples.tdd.mockito;
 import com.szabodev.examples.tdd.fakespring.BindingResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +30,38 @@ class ExampleControllerTest {
 
     @Mock
     BindingResult bindingResult;
+
+    @Captor
+    ArgumentCaptor<String> stringArgumentCaptor;
+
+    @Test
+    void processFindFormWildcardString() {
+        // given
+        Example example = new Example(1L, "Test", "Test");
+        List<Example> exampleList = new ArrayList<>();
+        final ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        given(exampleService.findAllByNameLike(captor.capture())).willReturn(exampleList);
+
+        // when
+        String viewName = exampleController.processFindForm(example, bindingResult, null);
+
+        // then
+        assertThat("%Test%").isEqualToIgnoringCase(captor.getValue());
+    }
+
+    @Test
+    void processFindFormWildcardStringAnnotation() {
+        // given
+        Example example = new Example(1L, "Test", "Test");
+        List<Example> exampleList = new ArrayList<>();
+        given(exampleService.findAllByNameLike(stringArgumentCaptor.capture())).willReturn(exampleList);
+
+        // when
+        String viewName = exampleController.processFindForm(example, bindingResult, null);
+
+        // then
+        assertThat("%Test%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
+    }
 
     @Test
     void processCreationFormHasErrors() {
