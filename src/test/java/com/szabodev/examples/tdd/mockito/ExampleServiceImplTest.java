@@ -18,7 +18,6 @@ class ExampleServiceImplTest {
 
     private Example example;
 
-    @SuppressWarnings("unused")
     @Mock
     ExampleRepository exampleRepository;
 

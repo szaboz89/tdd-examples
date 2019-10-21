@@ -13,5 +13,7 @@ public interface ExampleService {
 
     void deleteById(Long id);
 
+    List<Example> findAll();
+
     List<Example> findAllByNameLike(String searchString);
 }

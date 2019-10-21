@@ -32,6 +32,11 @@ public class ExampleServiceImpl implements ExampleService {
     }
 
     @Override
+    public List<Example> findAll() {
+        return exampleRepository.findAll();
+    }
+
+    @Override
     public List<Example> findAllByNameLike(String searchString) {
         return exampleRepository.findAllByNameLike(searchString);
     }

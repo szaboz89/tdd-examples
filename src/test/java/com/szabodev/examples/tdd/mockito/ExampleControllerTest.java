@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ExampleControllerTest {
@@ -52,7 +52,8 @@ class ExampleControllerTest {
 
         // in order
         inOrder.verify(exampleService).findAllByNameLike(anyString());
-        inOrder.verify(model).addAttribute(anyString(), anyList());
+        inOrder.verify(model, times(1)).addAttribute(anyString(), anyList());
+        verifyNoMoreInteractions(model);
     }
 
     void givenWithAnswer() {
@@ -101,6 +102,7 @@ class ExampleControllerTest {
         // then
         assertThat("%Test1%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
         assertThat("redirect:/examples/1").isEqualToIgnoringCase(viewName);
+        verifyZeroInteractions(model);
     }
 
 

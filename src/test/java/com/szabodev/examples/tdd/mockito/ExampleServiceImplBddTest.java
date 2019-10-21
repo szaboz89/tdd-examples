@@ -36,7 +36,7 @@ class ExampleServiceImplBddTest {
 
         // then
         assertThat(foundExample).isNotNull();
-        then(exampleRepository).should().findById(anyLong());
+        then(exampleRepository).should(timeout(100)).findById(anyLong());
         then(exampleRepository).shouldHaveNoMoreInteractions();
     }
 
